@@ -1,0 +1,71 @@
+scalar AWSJSON
+scalar AWSDateTime
+
+union Card = PersonCard | StarshipCard
+
+
+type PersonCard {
+  id: ID!
+  name: String!
+  type: String!
+  mass: Int!
+  height: Int!
+  hair_color: String!
+  gender: String!
+  battleAttributeName: String!
+  battleValue: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type StarshipCard {
+  id: ID!
+  name: String!
+  crew: Int!
+  cargo_capacity: Int!
+  battleAttributeName: String!
+  battleValue: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+input CreatePersonCard {
+  name: String!
+  mass: Int!
+  height: Int!
+  hair_color: String!
+  gender: String!
+}
+
+input CreateStarshipCard {
+  name: String!
+  type: String!
+  crew: Int!
+  cargo_capacity: Int!
+}
+
+input UpdateCard {
+  name: String
+  type: String
+  details: AWSJSON
+}
+
+type BattleResult {
+  cards: [Card!]!
+  winnerId: ID!
+}
+
+
+type Query {
+  getCardById(id: ID!): Card!
+  getAllByType(type: String!): [Card!]!
+  getBattleResult(type: String!): BattleResult!
+}
+
+
+type Mutation {
+  createPersonCard(card: CreatePersonCard!): PersonCard!
+  createStarshipCard(card: CreateStarshipCard!): StarshipCard!
+  updateCard(id: ID!, card: UpdateCard!): Card!
+  deleteCard(id: ID!): String!
+}
