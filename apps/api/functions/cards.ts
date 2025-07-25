@@ -2,8 +2,8 @@ import { AppSyncResolverEvent } from "aws-lambda";
 import { CardService } from "../services/card.service";
 import { cardRepository } from "../db/cardRepository";
 import {
-  CreatePersonCard,
-  CreateStarshipCard,
+  UpsertPersonCard,
+  UpsertStarshipCard,
   Card,
   BattleResult,
 } from "../types/graphql";
@@ -21,12 +21,12 @@ interface GetAllByTypeArguments {
   type: string;
 }
 
-interface CreatePersonCardArguments {
-  card: CreatePersonCard;
+interface UpsertPersonCardArguments {
+  card: UpsertPersonCard;
 }
 
-interface CreateStarshipCardArguments {
-  card: CreateStarshipCard;
+interface UpsertStarshipCardArguments {
+  card: UpsertStarshipCard;
 }
 
 interface UpsertCard {
@@ -39,21 +39,30 @@ interface UpsertCard {
 }
 
 type CardResolverEventUnion =
-  | (AppSyncResolverEvent<GetCardByIdArguments> & { info: { fieldName: "getCardById" } })
-  | (AppSyncResolverEvent<GetAllByTypeArguments> & { info: { fieldName: "getAllByType" } })
-  | (AppSyncResolverEvent<CreatePersonCardArguments> & { info: { fieldName: "createPersonCard" } })
-  | (AppSyncResolverEvent<CreateStarshipCardArguments> & { info: { fieldName: "createStarshipCard" } })
-  | (AppSyncResolverEvent<UpsertCard> & { info: { fieldName: "updateCard" } })
-  | (AppSyncResolverEvent<DeleteCardByIdArguments> & { info: { fieldName: "deleteCard" } });
+  | (AppSyncResolverEvent<GetCardByIdArguments> & {
+      info: { fieldName: "getCardById" };
+    })
+  | (AppSyncResolverEvent<GetAllByTypeArguments> & {
+      info: { fieldName: "getAllByType" };
+    })
+  | (AppSyncResolverEvent<UpsertPersonCardArguments> & {
+      info: { fieldName: "upsertPersonCard" };
+    })
+  | (AppSyncResolverEvent<UpsertStarshipCardArguments> & {
+      info: { fieldName: "upsertStarshipCard" };
+    })
+  | (AppSyncResolverEvent<DeleteCardByIdArguments> & {
+      info: { fieldName: "deleteCard" };
+    });
 
-
-export const handler = async (event: CardResolverEventUnion): Promise<Card | string | BattleResult> => {
+export const handler = async (
+  event: CardResolverEventUnion
+): Promise<Card | string | BattleResult> => {
   try {
     const service = new CardService(cardRepository);
 
     switch (event.info.fieldName) {
       case "getCardById": {
-
         const card = await service.getCardById(event.arguments.id);
         console.log("card", card);
         return card;
@@ -63,18 +72,14 @@ export const handler = async (event: CardResolverEventUnion): Promise<Card | str
         return await service.getAllByType(event.arguments.type);
       }
 
-      case "createPersonCard": {
+      case "upsertPersonCard": {
         const { card } = event.arguments;
-        return await service.createCard({ ...card, type: "PersonCard" });
+        return await service.upsertCard({ ...card, type: "PersonCard" });
       }
 
-      case "createStarshipCard": {
+      case "upsertStarshipCard": {
         const { card } = event.arguments;
-        return await service.createCard({ ...card, type: "StarshipCard" });
-      }
-
-      case "updateCard": {
-        return await service.updateCard(event.arguments.id, event.arguments.card);
+        return await service.upsertCard({ ...card, type: "StarshipCard" });
       }
 
       case "deleteCard": {
@@ -88,4 +93,3 @@ export const handler = async (event: CardResolverEventUnion): Promise<Card | str
     throw error;
   }
 };
-

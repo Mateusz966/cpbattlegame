@@ -1,7 +1,7 @@
-import { Card, CreatePersonCard, CreateStarshipCard } from "./graphql";
+import { Card, UpsertPersonCard, UpsertStarshipCard } from "./graphql";
 
 export interface BattleResult {
-  cards: [Card, Card];
+  cards: Card[]
   winnerId: string;
 }
 
@@ -18,6 +18,6 @@ export interface RawCard {
   updatedAt: string; // ISO date string
 }
 
-export type CreateCardInput =
-  | (CreatePersonCard & { type: "PersonCard" })
-  | (CreateStarshipCard & { type: "StarshipCard" });
+export type UpsertCardInput =
+  | (UpsertPersonCard & { type: "PersonCard" })
+  | (UpsertStarshipCard & { type: "StarshipCard" });

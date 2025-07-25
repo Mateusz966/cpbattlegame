@@ -3,11 +3,9 @@ scalar AWSDateTime
 
 union Card = PersonCard | StarshipCard
 
-
 type PersonCard {
   id: ID!
   name: String!
-  type: String!
   mass: Int!
   height: Int!
   hair_color: String!
@@ -29,7 +27,8 @@ type StarshipCard {
   updatedAt: AWSDateTime!
 }
 
-input CreatePersonCard {
+input UpsertPersonCard {
+  id: ID
   name: String!
   mass: Int!
   height: Int!
@@ -37,17 +36,12 @@ input CreatePersonCard {
   gender: String!
 }
 
-input CreateStarshipCard {
+input UpsertStarshipCard {
+  id: ID
   name: String!
   type: String!
   crew: Int!
   cargo_capacity: Int!
-}
-
-input UpdateCard {
-  name: String
-  type: String
-  details: AWSJSON
 }
 
 type BattleResult {
@@ -55,17 +49,14 @@ type BattleResult {
   winnerId: ID!
 }
 
-
 type Query {
   getCardById(id: ID!): Card!
   getAllByType(type: String!): [Card!]!
   getBattleResult(type: String!): BattleResult!
 }
 
-
 type Mutation {
-  createPersonCard(card: CreatePersonCard!): PersonCard!
-  createStarshipCard(card: CreateStarshipCard!): StarshipCard!
-  updateCard(id: ID!, card: UpdateCard!): Card!
+  upsertPersonCard(card: UpsertPersonCard!): PersonCard!
+  upsertStarshipCard(card: UpsertStarshipCard!): StarshipCard!
   deleteCard(id: ID!): String!
 }

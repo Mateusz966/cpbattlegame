@@ -1,9 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import * as appsync from "aws-cdk-lib/aws-appsync";
 import { Construct } from "constructs";
-import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { createCardBattleLambda } from "./lambdas/card-battle.lambda";
 import { createCardsLambda } from "./lambdas/cards.lambda";
 
@@ -56,14 +54,14 @@ export class ApiStack extends cdk.Stack {
       fieldName: "getAllByType",
     });
 
-    cardLambdaDs.createResolver("createPersonCardResolver", {
+    cardLambdaDs.createResolver("upsertPersonCardResolver", {
       typeName: "Mutation",
-      fieldName: "createPersonCard",
+      fieldName: "upsertPersonCard",
     });
 
-    cardLambdaDs.createResolver("createStarshipCardResolver", {
+    cardLambdaDs.createResolver("upsertStarshipCardResolver", {
       typeName: "Mutation",
-      fieldName: "createStarshipCard",
+      fieldName: "upsertStarshipCard",
     });
 
     getBattleResultDs.createResolver("getBattleResultResolver", {

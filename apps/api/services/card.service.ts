@@ -1,10 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { CardRepository } from "../db/cardRepository";
 import { Card, PersonCard, StarshipCard } from "../types/graphql";
-import { CreateCardInput, RawCard } from "../types";
+import { UpsertCardInput, RawCard } from "../types";
 import { cardMappers } from "../mappers/cardMappers";
-
-type CardOutput = PersonCard | StarshipCard;
 
 const BATTLE_ATTR_MAP = {
   PersonCard: "mass",
@@ -28,64 +26,42 @@ export class CardService {
     return cardMappers.fromDatabase(item);
   }
 
-  async createCard(input: CreateCardInput): Promise<CardOutput> {
+  async upsertCard(input: UpsertCardInput): Promise<Card> {
     const now = new Date().toISOString();
-    const id = uuidv4();
 
-    const { type, name, ...rest } = input;
+    const { type, name, id, ...details } = input;
     const battleAttributeName = BATTLE_ATTR_MAP[type];
     const battleValue = Number(rest[battleAttributeName] ?? 0);
 
     const rawCard: RawCard = {
-      id,
+      id: id ?? uuidv4(),
       type,
       name,
-      details: JSON.stringify(rest),
+      details: JSON.stringify(details),
       battleAttributeName,
       battleValue,
       createdAt: now,
       updatedAt: now,
     };
 
-    await this.cardRepository.createCard(rawCard);
+    await this.cardRepository.upsertCard(rawCard);
 
     return {
-      __typename: type,
       id,
-      type,
       name,
-      ...rest,
+      ...details,
       battleAttributeName,
       battleValue,
       createdAt: now,
       updatedAt: now,
-    } as any;
+      __typename: type,
+    } as Card;
   }
 
   async getAllByType(type: string): Promise<Card[]> {
     const cards = await this.cardRepository.getAllByType(type);
 
     return cards.map((card) => cardMappers.fromDatabase(card));
-  }
-
-  async updateCard(id: string, input: Partial<CreateCardInput>): Promise<Card> {
-    const existing = await this.cardRepository.getCardById(id);
-    if (!existing) {
-      throw new Error(`Card with id ${id} not found`);
-    }
-
-    const updatedCard: RawCard = {
-      ...existing,
-      ...input,
-      updatedAt: new Date().toISOString(),
-    };
-
-    await this.cardRepository.createCard(updatedCard);
-
-    return {
-      ...updatedCard,
-      __typename: updatedCard.type,
-    };
   }
 
   async deleteCardById(id: string): Promise<string> {

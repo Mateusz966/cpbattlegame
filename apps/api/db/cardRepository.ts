@@ -3,9 +3,9 @@ import {
   GetItemCommand,
   PutItemCommand,
   ScanCommand,
+  UpdateItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
-import { Card } from "../types/graphql";
 import { RawCard } from "../types";
 
 const client = new DynamoDBClient({});
@@ -29,7 +29,7 @@ export class CardRepository {
     return Items?.map((item) => unmarshall(item) as RawCard) || [];
   }
 
-  async createCard(card: RawCard): Promise<void> {
+  async upsertCard(card: RawCard): Promise<void> {
     await client.send(
       new PutItemCommand({
         TableName: tableName,
@@ -48,7 +48,7 @@ export class CardRepository {
       })
     );
 
-    return Item ? (unmarshall(Item) as Card) : undefined;
+    return Item ? (unmarshall(Item) as RawCard) : undefined;
   }
 }
 

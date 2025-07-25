@@ -1,4 +1,5 @@
 import { CardRepository } from "../db/cardRepository";
+import { cardMappers } from "../mappers/cardMappers";
 import { BattleResult, Card } from "../types/graphql";
 
 export class BattleService {
@@ -13,7 +14,9 @@ export class BattleService {
   }
 
   async getBattleResult(type: string): Promise<BattleResult> {
-    const allCards = await this.cardRepository.getAllByType(type);
+    const allCards = (await this.cardRepository.getAllByType(type)).map(
+      (card) => cardMappers.fromDatabase(card)
+    );
     const shuffledCards = allCards.sort(() => 0.5 - Math.random()).slice(0, 2);
 
     if (shuffledCards.length < 2) {
@@ -23,7 +26,7 @@ export class BattleService {
     const winnerId = this._calculateWinner(shuffledCards);
 
     return {
-      cards: shuffledCards as [Card, Card],
+      cards: shuffledCards,
       winnerId,
       __typename: "BattleResult",
     };

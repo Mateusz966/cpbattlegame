@@ -18,7 +18,6 @@ export const cardMappers = {
     return {
       id: db.id,
       name: db.name,
-      type: db.type,
       __typename: db.type,
       battleAttributeName: db.battleAttributeName,
       battleValue: db.battleValue,

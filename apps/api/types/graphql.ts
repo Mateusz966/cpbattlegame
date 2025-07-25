@@ -24,37 +24,11 @@ export type BattleResult = {
 
 export type Card = PersonCard | StarshipCard;
 
-export type CreatePersonCard = {
-  gender: Scalars['String']['input'];
-  hair_color: Scalars['String']['input'];
-  height: Scalars['Int']['input'];
-  mass: Scalars['Int']['input'];
-  name: Scalars['String']['input'];
-};
-
-export type CreateStarshipCard = {
-  cargo_capacity: Scalars['Int']['input'];
-  crew: Scalars['Int']['input'];
-  name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
-};
-
 export type Mutation = {
   __typename: 'Mutation';
-  createPersonCard: PersonCard;
-  createStarshipCard: StarshipCard;
   deleteCard: Scalars['String']['output'];
-  updateCard: Card;
-};
-
-
-export type MutationCreatePersonCardArgs = {
-  card: CreatePersonCard;
-};
-
-
-export type MutationCreateStarshipCardArgs = {
-  card: CreateStarshipCard;
+  upsertPersonCard: PersonCard;
+  upsertStarshipCard: StarshipCard;
 };
 
 
@@ -63,9 +37,13 @@ export type MutationDeleteCardArgs = {
 };
 
 
-export type MutationUpdateCardArgs = {
-  card: UpdateCard;
-  id: Scalars['ID']['input'];
+export type MutationUpsertPersonCardArgs = {
+  card: UpsertPersonCard;
+};
+
+
+export type MutationUpsertStarshipCardArgs = {
+  card: UpsertStarshipCard;
 };
 
 export type PersonCard = {
@@ -79,7 +57,6 @@ export type PersonCard = {
   id: Scalars['ID']['output'];
   mass: Scalars['Int']['output'];
   name: Scalars['String']['output'];
-  type: Scalars['String']['output'];
   updatedAt: Scalars['AWSDateTime']['output'];
 };
 
@@ -117,8 +94,19 @@ export type StarshipCard = {
   updatedAt: Scalars['AWSDateTime']['output'];
 };
 
-export type UpdateCard = {
-  details?: InputMaybe<Scalars['AWSJSON']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
+export type UpsertPersonCard = {
+  gender: Scalars['String']['input'];
+  hair_color: Scalars['String']['input'];
+  height: Scalars['Int']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  mass: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+};
+
+export type UpsertStarshipCard = {
+  cargo_capacity: Scalars['Int']['input'];
+  crew: Scalars['Int']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  name: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
