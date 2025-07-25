@@ -1,0 +1,34 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "d6f36ca8502306d7a262504969f689226c600a5e2053d35dc5a11ad6ce24b4df": {
+      "displayName": "card-battle/Code",
+      "source": {
+        "path": "asset.d6f36ca8502306d7a262504969f689226c600a5e2053d35dc5a11ad6ce24b4df",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region-cbcd0f3c": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "d6f36ca8502306d7a262504969f689226c600a5e2053d35dc5a11ad6ce24b4df.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "e3314857d67ad113b3151b8715578e14584c1bdd318277705b7111abc15a150c": {
+      "displayName": "ApiStack Template",
+      "source": {
+        "path": "ApiStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-98f44920": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "e3314857d67ad113b3151b8715578e14584c1bdd318277705b7111abc15a150c.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
