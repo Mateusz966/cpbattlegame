@@ -1,5 +1,5 @@
-import { CardRepository } from "../db/cardRepository";
-import { cardMappers } from "../mappers/cardMappers";
+import { CardRepository } from "../db/card.repository";
+import { cardMappers } from "../mappers/card.mapper";
 import { BattleResult, Card } from "../types/graphql";
 
 export class BattleService {

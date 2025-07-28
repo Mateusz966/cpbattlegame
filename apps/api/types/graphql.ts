@@ -108,5 +108,4 @@ export type UpsertStarshipCard = {
   crew: Scalars['Int']['input'];
   id?: InputMaybe<Scalars['ID']['input']>;
   name: Scalars['String']['input'];
-  type: Scalars['String']['input'];
 };

@@ -20,7 +20,7 @@
       "ApiId"
      ]
     },
-    "Definition": "scalar AWSJSON\nscalar AWSDateTime\n\nunion Card = PersonCard | StarshipCard\n\ntype PersonCard {\n  id: ID!\n  name: String!\n  mass: Int!\n  height: Int!\n  hair_color: String!\n  gender: String!\n  battleAttributeName: String!\n  battleValue: Int!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ntype StarshipCard {\n  id: ID!\n  name: String!\n  crew: Int!\n  cargo_capacity: Int!\n  battleAttributeName: String!\n  battleValue: Int!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput UpsertPersonCard {\n  id: ID\n  name: String!\n  mass: Int!\n  height: Int!\n  hair_color: String!\n  gender: String!\n}\n\ninput UpsertStarshipCard {\n  id: ID\n  name: String!\n  type: String!\n  crew: Int!\n  cargo_capacity: Int!\n}\n\ntype BattleResult {\n  cards: [Card!]!\n  winnerId: ID!\n}\n\ntype Query {\n  getCardById(id: ID!): Card!\n  getAllByType(type: String!): [Card!]!\n  getBattleResult(type: String!): BattleResult!\n}\n\ntype Mutation {\n  upsertPersonCard(card: UpsertPersonCard!): PersonCard!\n  upsertStarshipCard(card: UpsertStarshipCard!): StarshipCard!\n  deleteCard(id: ID!): String!\n}\n"
+    "Definition": "scalar AWSJSON\nscalar AWSDateTime\n\nunion Card = PersonCard | StarshipCard\n\ntype PersonCard {\n  id: ID!\n  name: String!\n  mass: Int!\n  height: Int!\n  hair_color: String!\n  gender: String!\n  battleAttributeName: String!\n  battleValue: Int!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ntype StarshipCard {\n  id: ID!\n  name: String!\n  crew: Int!\n  cargo_capacity: Int!\n  battleAttributeName: String!\n  battleValue: Int!\n  createdAt: AWSDateTime!\n  updatedAt: AWSDateTime!\n}\n\ninput UpsertPersonCard {\n  id: ID\n  name: String!\n  mass: Int!\n  height: Int!\n  hair_color: String!\n  gender: String!\n}\n\ninput UpsertStarshipCard {\n  id: ID\n  name: String!\n  crew: Int!\n  cargo_capacity: Int!\n}\n\ntype BattleResult {\n  cards: [Card!]!\n  winnerId: ID!\n}\n\ntype Query {\n  getCardById(id: ID!): Card!\n  getAllByType(type: String!): [Card!]!\n  getBattleResult(type: String!): BattleResult!\n}\n\ntype Mutation {\n  upsertPersonCard(card: UpsertPersonCard!): PersonCard!\n  upsertStarshipCard(card: UpsertStarshipCard!): StarshipCard!\n  deleteCard(id: ID!): String!\n}\n"
    },
    "Metadata": {
     "aws:cdk:path": "ApiStack/cpbattlegame-api/Schema"
@@ -487,7 +487,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "cc576b0c3311bc5c33be492e3277d65fb32b872219438ef793ca7385cb1a0189.zip"
+     "S3Key": "4404494e17be90202d24844b68ecb6b2a1e957133a461702509e25a508c7022c.zip"
     },
     "Environment": {
      "Variables": {
@@ -511,7 +511,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ApiStack/card-battle/Resource",
-    "aws:asset:path": "asset.cc576b0c3311bc5c33be492e3277d65fb32b872219438ef793ca7385cb1a0189",
+    "aws:asset:path": "asset.4404494e17be90202d24844b68ecb6b2a1e957133a461702509e25a508c7022c",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -637,7 +637,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "6d71f631fcb42234a3de2ca97f91e0c02c9ed42007252344f1df6d4b69e92cd0.zip"
+     "S3Key": "538c1bd327159a8d164650b529e1b7d11ba60bbb4c64505c9e996f268d8bc621.zip"
     },
     "Environment": {
      "Variables": {
@@ -661,7 +661,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ApiStack/cards/Resource",
-    "aws:asset:path": "asset.6d71f631fcb42234a3de2ca97f91e0c02c9ed42007252344f1df6d4b69e92cd0",
+    "aws:asset:path": "asset.538c1bd327159a8d164650b529e1b7d11ba60bbb4c64505c9e996f268d8bc621",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
