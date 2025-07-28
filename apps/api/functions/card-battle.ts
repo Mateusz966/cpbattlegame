@@ -9,7 +9,7 @@ export const handler = async (
 ): Promise<BattleResult> => {
   try {
     const battleService = new BattleService(cardRepository);
-    const result = await battleService.getBattleResult("person");
+    const result = await battleService.getBattleResult("PersonCard");
 
     return result;
   } catch (error) {

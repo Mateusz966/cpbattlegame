@@ -31,7 +31,7 @@ export class CardService {
 
     const { type, name, id, ...details } = input;
     const battleAttributeName = BATTLE_ATTR_MAP[type];
-    const battleValue = Number(rest[battleAttributeName] ?? 0);
+    const battleValue = Number(details[battleAttributeName] ?? 0);
 
     const rawCard: RawCard = {
       id: id ?? uuidv4(),

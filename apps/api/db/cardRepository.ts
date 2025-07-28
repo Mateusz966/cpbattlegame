@@ -17,6 +17,7 @@ export class CardRepository {
   }
 
   async getAllByType(type: string): Promise<RawCard[]> {
+    try {
     const { Items } = await client.send(
       new ScanCommand({
         TableName: tableName,
@@ -27,6 +28,13 @@ export class CardRepository {
     );
 
     return Items?.map((item) => unmarshall(item) as RawCard) || [];
+    }
+
+    catch (error) {
+      console.error("getAllByType error", error);
+      throw error;
+    }
+
   }
 
   async upsertCard(card: RawCard): Promise<void> {
