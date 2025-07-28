@@ -1,5 +1,6 @@
 import { CardRepository } from "../db/card.repository";
 import { cardMappers } from "../mappers/card.mapper";
+import { CardType } from "../types";
 import { BattleResult, Card } from "../types/graphql";
 
 export class BattleService {
@@ -13,7 +14,7 @@ export class BattleService {
     }
   }
 
-  async getBattleResult(type: string): Promise<BattleResult> {
+  async getBattleResult(type: CardType): Promise<BattleResult> {
     const allCards = (await this.cardRepository.getAllByType(type)).map(
       (card) => cardMappers.fromDatabase(card)
     );
