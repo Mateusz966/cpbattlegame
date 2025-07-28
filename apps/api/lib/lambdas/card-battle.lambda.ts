@@ -10,7 +10,7 @@ export const createCardBattleLambda = (
   const cardBattleLambda = new NodejsFunction(scope, "card-battle", {
     runtime: lambda.Runtime.NODEJS_22_X,
     handler: "handler",
-    entry: "functions/cards.ts",
+    entry: "functions/card-battle.ts",
   });
 
   table.grantReadData(cardBattleLambda);
