@@ -39,7 +39,6 @@ input UpsertPersonCard {
 input UpsertStarshipCard {
   id: ID
   name: String!
-  type: String!
   crew: Int!
   cargo_capacity: Int!
 }

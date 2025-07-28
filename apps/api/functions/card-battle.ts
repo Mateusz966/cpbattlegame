@@ -2,7 +2,7 @@ import { AppSyncResolverEvent } from "aws-lambda";
 
 import { BattleResult } from "../types";
 import { BattleService } from "../services/battle.service";
-import { cardRepository } from "../db/cardRepository";
+import { cardRepository } from "../db/card.repository";
 
 export const handler = async (
   event: AppSyncResolverEvent<{}>

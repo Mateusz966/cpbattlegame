@@ -1,6 +1,6 @@
 import { AppSyncResolverEvent } from "aws-lambda";
 import { CardService } from "../services/card.service";
-import { cardRepository } from "../db/cardRepository";
+import { cardRepository } from "../db/card.repository";
 import {
   UpsertPersonCard,
   UpsertStarshipCard,
@@ -8,7 +8,6 @@ import {
   BattleResult,
 } from "../types/graphql";
 
-// Argumenty
 interface GetCardByIdArguments {
   id: string;
 }
@@ -27,15 +26,6 @@ interface UpsertPersonCardArguments {
 
 interface UpsertStarshipCardArguments {
   card: UpsertStarshipCard;
-}
-
-interface UpsertCard {
-  id: string;
-  card: {
-    name: string;
-    type: string;
-    details: Record<string, any>;
-  };
 }
 
 type CardResolverEventUnion =

@@ -28,17 +28,26 @@ export const cardMappers = {
   },
 
   toDatabase: (card: Card): RawCard => {
-    const { id, name, ...details } = card;
+    const {
+      id,
+      name,
+      battleAttributeName,
+      createdAt,
+      updatedAt,
+      battleValue,
+      __typename,
+      ...details
+    } = card;
 
     return {
       id,
       name,
-      type: card.__typename,
+      type: __typename,
       details: JSON.stringify(details),
-      battleAttributeName: card.battleAttributeName,
-      battleValue: card.battleValue,
-      createdAt: card.createdAt,
-      updatedAt: card.updatedAt,
+      battleAttributeName: battleAttributeName,
+      battleValue: battleValue,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     };
   },
 };

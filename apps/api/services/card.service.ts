@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { CardRepository } from "../db/cardRepository";
-import { Card, PersonCard, StarshipCard } from "../types/graphql";
+import { CardRepository } from "../db/card.repository";
+import { Card } from "../types/graphql";
 import { UpsertCardInput, RawCard } from "../types";
-import { cardMappers } from "../mappers/cardMappers";
+import { cardMappers } from "../mappers/card.mapper";
 
 const BATTLE_ATTR_MAP = {
   PersonCard: "mass",
@@ -14,6 +14,18 @@ export class CardService {
 
   constructor(cardRepository: CardRepository) {
     this.cardRepository = cardRepository;
+  }
+
+  private _setBattleValue(card: UpsertCardInput): number {
+    let battleValue = 0;
+
+    if (card.type === "PersonCard") {
+      battleValue = card.mass;
+    } else if (card.type === "StarshipCard") {
+      battleValue = card.crew;
+    }
+
+    return battleValue;
   }
 
   async getCardById(id: string): Promise<Card> {
@@ -31,10 +43,11 @@ export class CardService {
 
     const { type, name, id, ...details } = input;
     const battleAttributeName = BATTLE_ATTR_MAP[type];
-    const battleValue = Number(details[battleAttributeName] ?? 0);
+    const battleValue = this._setBattleValue(input);
+    const cardId = id ?? uuidv4();
 
     const rawCard: RawCard = {
-      id: id ?? uuidv4(),
+      id: cardId,
       type,
       name,
       details: JSON.stringify(details),
@@ -47,7 +60,7 @@ export class CardService {
     await this.cardRepository.upsertCard(rawCard);
 
     return {
-      id,
+      id: cardId,
       name,
       ...details,
       battleAttributeName,
@@ -65,7 +78,7 @@ export class CardService {
   }
 
   async deleteCardById(id: string): Promise<string> {
-    // TODO: dummy
-    return `Card with id ${id} deleted (not really)`;
+    await this.cardRepository.deleteCardById(id);
+    return `Card with id: ${id} deleted`;
   }
 }
